@@ -1,6 +1,5 @@
 <?php
 
-echo "test";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,6 +9,10 @@ echo "test";
 	<title>Document</title>
 </head>
 <body>
-	
+	<ul>
+	 	<li><a href="/1">Задание 1</a></li>
+	 	<li><a href="/2">Задание 2</a></li>
+	 	<li><a href="/3">Задание 3</a></li>
+	 </ul> 
 </body>
 </html>

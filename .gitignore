@@ -1,2 +1,3 @@
 /.osp
-.txt
+*/*.txt
+1/files

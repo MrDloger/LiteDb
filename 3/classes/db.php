@@ -9,7 +9,7 @@ class Db
 	{
 		self::$pdo = new \PDO(
 			'mysql:dbname=testAmo;host=MySQL-8.2', 
-			'root', 
+			'root',
 			'',
 			[
 				\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
@@ -31,6 +31,12 @@ class Db
 		$stmt = self::$pdo->prepare("INSERT INTO {$table}(" . implode(',', $fields). ") VALUES (:" . implode(',:', $fields) . ")");
 		$stmt->execute( $value );
 		return self::$pdo->lastInsertId();
+	}
+	public static function query($query)
+	{
+		$stmt = self::$pdo->prepare($query);
+		$stmt->execute();
+		return $stmt;
 	}
 	public static function select(string $table, string $fields, string $filter, array $values):\PDOStatement
 	{

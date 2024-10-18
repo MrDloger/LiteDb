@@ -43,7 +43,7 @@ abstract class Type
 	}
 	final public function __toString():string
 	{
-		$colum = "`$this->name` " . static::TYPE . $this->getLenght();
+		$colum = "\t`$this->name` " . static::TYPE . $this->getLenght();
 		$colum .= $this->notNull ? " NOT NULL" : " NULL";
 		$colum .= $this->default ? " DEFAULT '{$this->default}'" : "";
 		$colum .= $this->autoIncriment ? " AUTO_INCREMENT" : "";

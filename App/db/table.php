@@ -4,7 +4,6 @@ namespace App\Db;
 class Table
 {
 	private bool $created = false;
-	private ?Db $db;
 	private array $columns = [];
 	private ?string $primoryKey = null;
 	public static function create(string $name, $func):static
@@ -14,8 +13,8 @@ class Table
 		if ($table->created) {
 			throw new \Exception("Table '{$table->name}' already exists", 1);
 		}
-		$query = "CREATE TABLE {$table->name} ({$table->prepareColumns()})";
-		$table->db->executeQuery($query);
+		$query = "CREATE TABLE {$table->name}\n(\n{$table->prepareColumns()}\n)";
+		Db::getInstance()->executeQuery($query);
 		$table->created = true;
 		return $table;
 	}
@@ -29,14 +28,14 @@ class Table
 	}
 	public function __construct(protected string $name)
 	{
-		$this->db = Db::getInstance();
+		//$this->db = Db::getInstance();
 		$this->created = static::isTable($name);
 	}
-	private function prepareColumns():string
+	private function prepareColumns(string $delimetr = ", \n"):string
 	{
-		$str = implode(', ', $this->columns);
+		$str = implode($delimetr, $this->columns);
 		if ($this->primoryKey) {
-			$str .= ", PRIMARY KEY (`{$this->primoryKey}`)";
+			$str .= $delimetr . "\tPRIMARY KEY (`{$this->primoryKey}`)";
 		}
 		return $str;
 	}

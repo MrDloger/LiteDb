@@ -20,6 +20,7 @@ $tableName = 'table_name_2';
 			$table->addColumn(new App\Db\Type\Varchar('test', 60))->notNull()->default('testDef');
 			$table->addColumn(new App\Db\Type\Varchar('collumn_test', 120));
 		});
+		d(db()->getLastQuery());
 		dv($t);
 
 		?>

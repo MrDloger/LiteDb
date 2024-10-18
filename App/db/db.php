@@ -4,7 +4,7 @@ class Db
 {
 	const DB_NAME = 'testAmo';
 	protected static \PDO $pdo;
-	protected static \PDOStatement $stmt;
+	protected \PDOStatement $stmt;
 	private static ?Db $instance = null;
 	
 	private function __construct()
@@ -32,12 +32,16 @@ class Db
 	}
 	public function executeQuery(string $query, array $values = null):\PDOStatement
 	{
-		$stmt = self::$pdo->prepare($query);
-		$stmt->execute($values ?? null);
-		return $stmt;
+		$this->stmt = self::$pdo->prepare($query);
+		$this->stmt->execute($values ?? null);
+		return $this->stmt;
 	}
 	public function getDbName():string
 	{
 		return self::DB_NAME;
+	}
+	public function getLastQuery()
+	{
+		return $this->stmt->queryString;
 	}
 }

@@ -11,26 +11,26 @@ class Table
 	{
 		$table = new static($name);
 		$func($table);
-		$table->createTable();
+		if ($table->tableCreated) {
+			throw new \Exception("Table '{$table->name}' already exists", 1);
+		}
+		$query = "CREATE TABLE {$table->name} ({$table->prepareColumns()})";
+		$table->db->executeQuery($query);
+		$table->tableCreated = true;
 		return $table;
 	}
 	public static function isTable($name):bool
 	{
-		return (bool) $this->db->executeQuery("SHOW TABLES FROM `{$this->db->getDbName()}` like '{$this->tableName}';")->fetch();
+		return (bool) Db::getInstance()->executeQuery("SHOW TABLES FROM `" . Db::DB_NAME . "` like '{$name}';")->fetch();
+	}
+	public static function drop(string $name):void
+	{
+		Db::getInstance()->executeQuery("DROP TABLE {$name};");
 	}
 	public function __construct(protected string $name)
 	{
 		$this->db = Db::getInstance();
 		$this->tableCreated = static::isTable($name);
-	}
-	protected function createTable():void
-	{
-		if ($this->tableCreated) {
-			return;
-		}
-		$query = "CREATE TABLE $this->tableName ({$this->prepareColumns()})";
-		$this->db->executeQuery($query);
-		$this->tableCreated = true;
 	}
 	private function prepareColumns():string
 	{
@@ -55,13 +55,6 @@ class Table
 		if (count($this->columns) > 0) return;
 		foreach ($this->columns as $key => $column) {
 			$column->autoIncriment(false);
-		}
-	}
-	public function drop():void
-	{
-		if ($this->tableCreated) {
-			$this->db->executeQuery("DROP TABLE {$this->tableName};");
-			$this->tableCreated = false;
 		}
 	}
 	public function rename(string $newName):void

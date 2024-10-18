@@ -1,7 +1,6 @@
 <?php
 require_once('App\function.php');
-
-$r = db()->executeQuery("SELECT * FROM ips")->fetchAll();
+$tableName = 'table_name_2';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,14 +12,10 @@ $r = db()->executeQuery("SELECT * FROM ips")->fetchAll();
 <body>
 	<pre>
 		<?php 
-
-
-		// $t = new App\Db\Table('testName2');
-		// $t->addColumn(new App\Db\Type\IntegerType('id', table: $t))->notNull()->autoIncriment()->primoryKey();
-		// $t->addColumn(new App\Db\Type\Varchar('test', 60, table: $t))->notNull()->default('testDef');
-		//$t->create();
-		// $t->drop();
-		$t = App\Db\Table::create('table_name', function(App\Db\Table $table){
+		if (App\Db\Table::isTable($tableName)) {
+			App\Db\Table::drop($tableName);
+		}
+		$t = App\Db\Table::create($tableName, function(App\Db\Table $table){
 			$table->addColumn(new App\Db\Type\IntegerType('id'))->notNull()->autoIncriment()->primoryKey();
 			$table->addColumn(new App\Db\Type\Varchar('test', 60))->notNull()->default('testDef');
 			$table->addColumn(new App\Db\Type\Varchar('collumn_test', 120));

@@ -59,4 +59,8 @@ abstract class Type
 		$this->default = $var;
 		return $this;
 	}
+	public function getName():string
+	{
+		return $this->name;
+	}
 }

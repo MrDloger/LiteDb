@@ -3,7 +3,7 @@ namespace App\Db;
 
 class Table
 {
-	private bool $tableCreated = false;
+	private bool $created = false;
 	private ?Db $db;
 	private array $columns = [];
 	private ?string $primoryKey = null;
@@ -11,12 +11,12 @@ class Table
 	{
 		$table = new static($name);
 		$func($table);
-		if ($table->tableCreated) {
+		if ($table->created) {
 			throw new \Exception("Table '{$table->name}' already exists", 1);
 		}
 		$query = "CREATE TABLE {$table->name} ({$table->prepareColumns()})";
 		$table->db->executeQuery($query);
-		$table->tableCreated = true;
+		$table->created = true;
 		return $table;
 	}
 	public static function isTable($name):bool
@@ -30,7 +30,7 @@ class Table
 	public function __construct(protected string $name)
 	{
 		$this->db = Db::getInstance();
-		$this->tableCreated = static::isTable($name);
+		$this->created = static::isTable($name);
 	}
 	private function prepareColumns():string
 	{
@@ -43,7 +43,7 @@ class Table
 	public function addColumn(Type\Type $col):Type\Type
 	{
 		$col->setTable($this);
-		$this->columns[] = $col;
+		$this->columns[$col->getName()] = $col;
 		return $col;
 	}
 	public function setPrimoryKey(string $colName):void
@@ -57,16 +57,14 @@ class Table
 			$column->autoIncriment(false);
 		}
 	}
-	public function rename(string $newName):void
+	public static function rename(string $oldName, string $newName):void
 	{
-		if ($this->tableCreated) {
-			$this->db->executeQuery("ALTER TABLE {$this->tableName} RENAME TO {$newName};");
-		}
-		$this->tableName = $newName;
+		$this->db->executeQuery("ALTER TABLE {$oldName} RENAME TO {$newName};");
+
 	}
 	public function renameColumn(string $oldName, string $newName):void
 	{
-		if ($this->tableCreated) {
+		if ($this->created) {
 			$this->db->executeQuery("ALTER TABLE {$this->tableName} RENAME COLUMN {$oldName} TO {$newName};");
 		}
 		$this->tableName = $newName;

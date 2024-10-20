@@ -22,7 +22,10 @@ $tableName = 'table_name_2';
 		// });
 		// d(db()->getLastQuery());
 		// dv($t);
-		$c = App\Util\Config::getInstance();
+		$reg = App\Util\Registry::getInstance();
+		$reg->set("config", "\\App\\Util\\Config");
+		$reg->set("database", "\\App\\Db\\Db");
+		dv($reg);
 		?>
 	</pre> 
 </body>

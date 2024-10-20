@@ -28,7 +28,6 @@ class Table
 	}
 	public function __construct(protected string $name)
 	{
-		//$this->db = Db::getInstance();
 		$this->created = static::isTable($name);
 	}
 	private function prepareColumns(string $delimetr = ", \n"):string

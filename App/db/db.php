@@ -7,12 +7,12 @@ class Db
 	protected \PDOStatement $stmt;
 	private static ?Db $instance = null;
 	
-	private function __construct()
+	private function __construct(string $type, string $dbName, string $host, string $user, string $pass)
 	{
 		self::$pdo = new \PDO(
-			"mysql:dbname=" . self::DB_NAME . ";host=MySQL-8.2", 
-			'root',
-			'',
+			"{$type}:dbname={$dbName};host={$host}", 
+			$user,
+			$pass,
 			[
 				\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
     			\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8mb4'",
@@ -26,7 +26,9 @@ class Db
 	public static function getInstance():static
 	{
 		if (self::$instance === null){
-			self::$instance = new Db();
+			$conf = \App\Util\Registry::getInstance()->get('config')->get('database');
+			d($conf);
+			self::$instance = new Db($conf['type'], $conf['name'], $conf['host'], $conf['user'], $conf['pass']);
 		}
 		return self::$instance;
 	}

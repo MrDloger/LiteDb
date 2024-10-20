@@ -27,7 +27,6 @@ class Db
 	{
 		if (self::$instance === null){
 			$conf = \App\Util\Registry::getInstance()->get('config')->get('database');
-			d($conf);
 			self::$instance = new Db($conf['type'], $conf['name'], $conf['host'], $conf['user'], $conf['pass']);
 		}
 		return self::$instance;

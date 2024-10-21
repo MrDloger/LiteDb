@@ -38,5 +38,10 @@ class Registry
 		if (isset($this->storage[$name])) {
 			return $this->storage[$name];
 		}
+		return null;
+	}
+	public function __get($name):mixed
+	{
+		return $this->get($name);
 	}
 }

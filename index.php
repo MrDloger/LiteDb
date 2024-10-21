@@ -25,7 +25,6 @@ $tableName = 'table_name_2';
 		$reg = App\Util\Registry::getInstance();
 		$reg->set("config", "\\App\\Util\\Config");
 		$reg->set("database", "\\App\\Db\\Db");
-		dv($reg->config);
 		dv($reg);
 		?>
 	</pre> 

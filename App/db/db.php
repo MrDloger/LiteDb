@@ -26,7 +26,7 @@ class Db
 	public static function getInstance():static
 	{
 		if (self::$instance === null){
-			$conf = \App\Util\Registry::getInstance()->get('config')->get('database');
+			$conf = \App\Util\Registry::getInstance()->config?->get('database');
 			self::$instance = new Db($conf['type'], $conf['name'], $conf['host'], $conf['user'], $conf['pass']);
 		}
 		return self::$instance;

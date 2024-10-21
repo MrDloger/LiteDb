@@ -12,9 +12,16 @@ $tableName = 'table_name_2';
 <body>
 	<pre>
 		<?php 
-		// if (App\Db\Table::isTable($tableName)) {
-		// 	App\Db\Table::drop($tableName);
-		// }
+
+		$reg = App\Util\Registry::getInstance();
+		
+		$reg->set("config", "\\App\\Util\\Config");
+		$reg->set("database", "\\App\\Db\\Db");
+		dv($reg);
+
+		if (App\Db\Table::isTable($tableName)) {
+			App\Db\Table::drop($tableName);
+		}
 		// $t = App\Db\Table::create($tableName, function(App\Db\Table $table){
 		// 	$table->addColumn(new App\Db\Type\IntegerType('id'))->notNull()->autoIncriment()->primoryKey();
 		// 	$table->addColumn(new App\Db\Type\Varchar('test', 60))->notNull()->default('testDef');
@@ -22,10 +29,6 @@ $tableName = 'table_name_2';
 		// });
 		// d(db()->getLastQuery());
 		// dv($t);
-		$reg = App\Util\Registry::getInstance();
-		$reg->set("config", "\\App\\Util\\Config");
-		$reg->set("database", "\\App\\Db\\Db");
-		dv($reg);
 		?>
 	</pre> 
 </body>

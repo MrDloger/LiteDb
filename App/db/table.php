@@ -20,7 +20,7 @@ class Table
 	}
 	public static function isTable($name):bool
 	{
-		return (bool) Db::getInstance()->executeQuery("SHOW TABLES FROM `" . Db::DB_NAME . "` like '{$name}';")->fetch();
+		return (bool) Db::getInstance()->executeQuery("SHOW TABLES FROM `" . Db::getInstance()->getDbName() . "` like '{$name}';")->fetch();
 	}
 	public static function drop(string $name):void
 	{

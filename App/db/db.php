@@ -7,7 +7,7 @@ class Db
 	protected \PDOStatement $stmt;
 	private static ?Db $instance = null;
 	
-	private function __construct(string $type, string $dbName, string $host, string $user, string $pass)
+	private function __construct(protected string $type, protected string $dbName, protected string $host, protected string $user, protected string $pass)
 	{
 		self::$pdo = new \PDO(
 			"{$type}:dbname={$dbName};host={$host}", 
@@ -39,9 +39,9 @@ class Db
 	}
 	public function getDbName():string
 	{
-		return self::DB_NAME;
+		return $this->dbName;
 	}
-	public function getLastQuery()
+	public function getLastQuery():?string
 	{
 		return $this->stmt->queryString;
 	}

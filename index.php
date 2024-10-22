@@ -23,7 +23,6 @@ $tableName = 'table_name_2';
 			App\Db\Table::drop($tableName);
 		}
 
-		
 		// $t = App\Db\Table::create($tableName, function(App\Db\Table $table){
 		// 	$table->addColumn(new App\Db\Type\IntegerType('id'))->notNull()->autoIncriment()->primoryKey();
 		// 	$table->addColumn(new App\Db\Type\Varchar('test', 60))->notNull()->default('testDef');

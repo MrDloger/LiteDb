@@ -6,13 +6,13 @@ graph TB
     awaitUpdate --> loggedMessage["Логирование сообщений"]
     awaitUpdate --> handlerUpdate{"Обработка сообщений"}
     
-    handlerUpdate -- command --> command["Обработка команд"]
+    handlerUpdate -->|command| command["Обработка команд"]
     command --> awaitUpdate
     
-    handlerUpdate -- action --> action["Обработка сохраненных действий"]
+    handlerUpdate -->|action| action["Обработка сохраненных действий"]
     action --> awaitUpdate
     
-    handlerUpdate -- message --> message["Обработка простых сообщений"]
+    handlerUpdate -->|message| message["Обработка простых сообщений"]
     message --> awaitUpdate
     
     loggedMessage --> awaitUpdate

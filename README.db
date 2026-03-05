@@ -1,0 +1,16 @@
+```Mermaid
+flowchart TB
+    start["Старт бота"] --> init["Инициализация: токен, менеджер запросов, подключение модулей"]
+    init --> run["Запуск бота bot.start"]
+    run --> awaitUpdate["Ожидание нового сообщения"]
+    awaitUpdate --> loggedMessage["Логирование сообщений"] & handlerUpdate{"Обработка сообщений"}
+    handlerUpdate -- command --> command["Обработка команд"]
+    command --> awaitUpdate
+    handlerUpdate -- action --> action["Обработка сохраненных действий"]
+    handlerUpdate -- message --> message["Обработка простых сообщений"]
+    message --> awaitUpdate
+    loggedMessage --> awaitUpdate
+    action --> awaitUpdate
+
+    loggedMessage@{ shape: subproc}
+```
